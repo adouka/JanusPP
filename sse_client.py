@@ -240,11 +240,11 @@ class SSE_Client:
     def encrypt(self, key, raw, iv):
         raw = self._pad(raw)
         cipher = AES.new(key, AES.MODE_CBC, iv)
-        return cipher.encrypt(raw)
+        return cipher.encrypt(raw.encode('utf-8'))
 
     def decrypt(self, key, ctext, iv):
         cipher = AES.new(key, AES.MODE_CBC, iv)
-        return self._unpad(cipher.decrypt(ctext))
+        return self._unpad(cipher.decrypt(ctext.decode('utf-8')))
 
     def _pad(self, s, bs=32):
         return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
